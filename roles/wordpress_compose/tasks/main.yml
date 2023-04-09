@@ -1,0 +1,34 @@
+---
+
+- name: crear carpeta para guardar elementos
+  file:
+    path: /wordpress_docker
+    owner: root
+    group: root
+    mode: '0755'
+    state: directory
+
+
+- name: copiar docker-compose.yml
+  copy:
+    src: docker-compose.yml
+    dest: /wordpress_docker/docker-compose.yml
+    owner: root
+    group: root
+    mode: '0755'
+
+
+- name: hacer docker compose up del fichero en Debian
+  community.docker.docker_compose:
+    project_src: /wordpress_docker
+    state: present
+  when: ansible_distribution == "Debian"
+
+
+- name: hacer docker compose up del fichero en CentOS
+  command:
+    chdir: /wordpress_docker
+    cmd: docker-compose up -d
+  when: ansible_distribution == "CentOS"
+
+...

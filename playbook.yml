@@ -1,0 +1,7 @@
+---
+
+- hosts: all
+  remote_user: root
+  roles:
+    - role: install_docker
+    - role: wordpress_compose
